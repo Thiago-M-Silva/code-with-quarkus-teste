@@ -1,7 +1,6 @@
 package org.acme.Model.Tarefa;
 
 import java.util.Date;
-import java.util.List;
 
 import org.acme.Model.Pessoa.Pessoa;
 

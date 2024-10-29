@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  quarkus-app:
+    build: .
+    container_name: quarkus-app
+    environment:
+      - quarkus.datasource.db-kind=postgresql
+      - quarkus.datasource.username=postgres
+      - quarkus.datasource.password=admin
+      - quarkus.datasource.jdbc.url=jdbc:postgresql://postgres-db:5432/postgres
+      - quarkus.datasource.jdbc.max-size=8
+      - quarkus.datasource.jdbc.min-size=2
+      - quarkus.hibernate-orm.database.generation=drop-and-create
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+    networks:
+      - quarkus-network
+
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - quarkus-network
+
+volumes:
+  pgdata:
+
+networks:
+  quarkus-network:
